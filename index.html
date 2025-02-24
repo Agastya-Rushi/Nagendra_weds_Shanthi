@@ -1,59 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wedding Celebration</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Website</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    <header>
-        <h1>Welcome to Our Wedding Celebration</h1>
-        <p>Join us in celebrating love, joy, and togetherness</p>
-    </header>
-
+  <header>
+    <h1>Welcome to Our Wedding Celebration</h1>
     <nav>
-        <button class="tab-btn active" onclick="showTab('engagement')">Engagement</button>
-        <button class="tab-btn" onclick="showTab('wedding')">Wedding</button>
+      <ul>
+        <li><a href="#engagement" class="tab-link active">Engagement</a></li>
+        <li><a href="#wedding" class="tab-link">Wedding</a></li>
+      </ul>
     </nav>
+  </header>
 
+  <main>
+    <!-- Engagement Tab -->
     <section id="engagement" class="tab-content active">
-        <h2>Engagement Celebration</h2>
-        <p>The families of the bride and groom are delighted to share this special moment with you.</p>
-        <div class="gallery">
-            <img src="engagement1.jpg" alt="Engagement Pic 1">
-            <img src="engagement2.jpg" alt="Engagement Pic 2">
-            <img src="engagement3.jpg" alt="Engagement Pic 3">
-            <img src="engagement4.jpg" alt="Engagement Pic 4">
-        </div>
+      <h2>Engagement Memories</h2>
+      <div class="gallery">
+        <img src="engagement1.jpg" alt="Engagement Photo 1">
+        <img src="engagement2.jpg" alt="Engagement Photo 2">
+        <img src="engagement3.jpg" alt="Engagement Photo 3">
+      </div>
+      <div class="families-intro">
+        <h3>About the Families</h3>
+        <p><strong>Groom's Family:</strong> The Smith family hails from New York. They are known for their love of music and art.</p>
+        <p><strong>Bride's Family:</strong> The Johnson family is from California. They are passionate about travel and food.</p>
+      </div>
     </section>
 
+    <!-- Wedding Tab -->
     <section id="wedding" class="tab-content">
-        <h2>Wedding Invitation</h2>
-        <p>We invite you to join us in celebrating the union of our beloved couple.</p>
-        <p>Stay tuned for the wedding date and venue details!</p>
-        <div class="gallery">
-            <img src="wedding1.jpg" alt="Wedding Pic 1">
-            <img src="wedding2.jpg" alt="Wedding Pic 2">
-            <img src="wedding3.jpg" alt="Wedding Pic 3">
-            <img src="wedding4.jpg" alt="Wedding Pic 4">
-        </div>
+      <h2>Wedding Invitation</h2>
+      <div class="invitation">
+        <p>You are cordially invited to the wedding of</p>
+        <h3>John Smith & Emily Johnson</h3>
+        <p>Date: To be announced</p>
+        <p>Venue: To be announced</p>
+        <p>Join us as we celebrate this special day filled with love, joy, and blessings.</p>
+      </div>
     </section>
+  </main>
 
-    <script>
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.getElementById(tabId).classList.add('active');
+  <footer>
+    <p>Created with ❤️ by [Your Name]</p>
+  </footer>
 
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
-        }
-    </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
