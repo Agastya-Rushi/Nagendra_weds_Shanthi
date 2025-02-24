@@ -1,78 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wedding Website</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Website</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: #f8f8f8;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: #d63384;
+            color: white;
+            margin: 5px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .tab:hover { background: #a31b65; }
+        .content { display: none; padding: 20px; }
+        .active { display: block; }
+        .family { margin: 20px; }
+        .gallery img { width: 200px; margin: 10px; border-radius: 10px; }
+        footer {
+            background: #333;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .social-icons a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="header-content">
-      <h1>John & Emily</h1>
-      <p>Save the Date</p>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="#engagement" class="tab-link active">Engagement</a></li>
-        <li><a href="#wedding" class="tab-link">Wedding</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <!-- Engagement Tab -->
-    <section id="engagement" class="tab-content active">
-      <h2>Engagement Memories</h2>
-      <div class="gallery">
-        <div class="gallery-item">
-          <img src="engagement1.jpg" alt="Engagement Photo 1">
-          <div class="overlay">Love at First Sight</div>
+    <header>
+        <div class="header-content">
+            <h1>John & Emily</h1>
+            <p>Save the Date</p>
         </div>
-        <div class="gallery-item">
-          <img src="engagement2.jpg" alt="Engagement Photo 2">
-          <div class="overlay">The Proposal</div>
+        <nav>
+            <ul>
+                <li><a href="#engagement" class="tab-link active" onclick="showTab('engagement')">Engagement</a></li>
+                <li><a href="#wedding" class="tab-link" onclick="showTab('wedding')">Wedding</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div id="engagement" class="content active">
+            <h2>Engagement Celebration</h2>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="engagement1.jpg" alt="Engagement Photo 1">
+                    <div class="overlay">Love at First Sight</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="engagement2.jpg" alt="Engagement Photo 2">
+                    <div class="overlay">The Proposal</div>
+                </div>
+            </div>
+            <div class="families-intro">
+                <h3>About the Families</h3>
+                <div class="family">
+                    <h4>The Smith Family</h4>
+                    <p>Hailing from New York, the Smith family is known for their love of music, art, and warm hospitality.</p>
+                </div>
+                <div class="family">
+                    <h4>The Johnson Family</h4>
+                    <p>From sunny California, the Johnson family brings a passion for travel, food, and joyful celebrations.</p>
+                </div>
+            </div>
         </div>
-        <div class="gallery-item">
-          <img src="engagement3.jpg" alt="Engagement Photo 3">
-          <div class="overlay">Celebration</div>
+        
+        <div id="wedding" class="content">
+            <h2>Wedding Invitation</h2>
+            <p>You are cordially invited to the wedding of</p>
+            <h3>John Smith & Emily Johnson</h3>
+            <p>Date: To be announced</p>
+            <p>Venue: To be announced</p>
+            <p>Join us as we celebrate this special day filled with love, joy, and blessings.</p>
+            <button class="rsvp-button">RSVP</button>
         </div>
-      </div>
-      <div class="families-intro">
-        <h3>About the Families</h3>
-        <div class="family">
-          <h4>The Smith Family</h4>
-          <p>Hailing from New York, the Smith family is known for their love of music, art, and warm hospitality.</p>
+    </main>
+    
+    <footer>
+        <p>Created with ❤️ by [Your Name]</p>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
         </div>
-        <div class="family">
-          <h4>The Johnson Family</h4>
-          <p>From sunny California, the Johnson family brings a passion for travel, food, and joyful celebrations.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Wedding Tab -->
-    <section id="wedding" class="tab-content">
-      <h2>Wedding Invitation</h2>
-      <div class="invitation">
-        <p>You are cordially invited to the wedding of</p>
-        <h3>John Smith & Emily Johnson</h3>
-        <p>Date: To be announced</p>
-        <p>Venue: To be announced</p>
-        <p>Join us as we celebrate this special day filled with love, joy, and blessings.</p>
-        <button class="rsvp-button">RSVP</button>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>Created with ❤️ by Mangaraju Palepu</p>
-    <div class="social-icons">
-      <a href="#"><i class="fab fa-instagram"></i></a>
-    </div>
-  </footer>
-
-  <script src="script.js"></script>
+    </footer>
+    
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+        }
+    </script>
 </body>
 </html>
