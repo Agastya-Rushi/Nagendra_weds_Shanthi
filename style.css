@@ -1,0 +1,54 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: url('wedding-bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+}
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    background: #d63384;
+    color: white;
+    margin: 5px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+.tab:hover {
+    background: #a31b65;
+}
+.content {
+    display: none;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    margin: 20px;
+}
+.active {
+    display: block;
+}
+.family {
+    margin: 20px;
+}
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.gallery img {
+    width: 200px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+}
+.gallery img:hover {
+    transform: scale(1.1);
+}
