@@ -3,43 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wedding Website</title>
+    <title>Wedding Celebration</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Welcome to the Wedding Website</h1>
-    <div class="tabs">
-        <div class="tab" onclick="showTab('engagement')">Engagement</div>
-        <div class="tab" onclick="showTab('wedding')">Wedding</div>
-    </div>
-    <div id="engagement" class="content active">
+
+    <header>
+        <h1>Welcome to Our Wedding Celebration</h1>
+        <p>Join us in celebrating love, joy, and togetherness</p>
+    </header>
+
+    <nav>
+        <button class="tab-btn active" onclick="showTab('engagement')">Engagement</button>
+        <button class="tab-btn" onclick="showTab('wedding')">Wedding</button>
+    </nav>
+
+    <section id="engagement" class="tab-content active">
         <h2>Engagement Celebration</h2>
-        <div class="family">
-            <h3>About the Families</h3>
-            <p>The bride's and groom's families are thrilled to celebrate this special occasion. Here’s a glimpse of our wonderful families.</p>
-            <p>Hello guru</p>
-        </div>
+        <p>The families of the bride and groom are delighted to share this special moment with you.</p>
         <div class="gallery">
             <img src="engagement1.jpg" alt="Engagement Pic 1">
             <img src="engagement2.jpg" alt="Engagement Pic 2">
             <img src="engagement3.jpg" alt="Engagement Pic 3">
             <img src="engagement4.jpg" alt="Engagement Pic 4">
-            <img src="engagement5.jpg" alt="Engagement Pic 5">
         </div>
-    </div>
-    <div id="wedding" class="content">
+    </section>
+
+    <section id="wedding" class="tab-content">
         <h2>Wedding Invitation</h2>
-        <p>Dear friends and family,</p>
-        <p>We are excited to invite you to the wedding celebration of our beloved couple. Stay tuned for the official date and venue details!</p>
-        <p>Join us in making this moment special with love, laughter, and joy.</p>
+        <p>We invite you to join us in celebrating the union of our beloved couple.</p>
+        <p>Stay tuned for the wedding date and venue details!</p>
         <div class="gallery">
             <img src="wedding1.jpg" alt="Wedding Pic 1">
             <img src="wedding2.jpg" alt="Wedding Pic 2">
             <img src="wedding3.jpg" alt="Wedding Pic 3">
             <img src="wedding4.jpg" alt="Wedding Pic 4">
-            <img src="wedding5.jpg" alt="Wedding Pic 5">
         </div>
-    </div>
-    <script src="script.js"></script>
+    </section>
+
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
+    </script>
+
 </body>
 </html>
