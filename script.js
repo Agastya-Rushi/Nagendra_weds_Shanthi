@@ -16,3 +16,9 @@ tabLinks.forEach(link => {
     target.classList.add('active');
   });
 });
+
+// RSVP Button Alert
+const rsvpButton = document.querySelector('.rsvp-button');
+rsvpButton.addEventListener('click', () => {
+  alert('Thank you for your RSVP! We will contact you soon.');
+});

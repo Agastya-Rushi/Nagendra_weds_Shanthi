@@ -3,20 +3,36 @@ body {
   font-family: 'Georgia', serif;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
-  color: #333;
+  background: url('wedding-bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 }
 
 header {
-  background-color: #ffd1dc;
+  background: rgba(0, 0, 0, 0.6);
   padding: 20px;
   text-align: center;
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 10px;
+  margin: 20px;
 }
 
 header h1 {
   margin: 0;
-  font-size: 2.5rem;
-  color: #333;
+  font-size: 3rem;
+  font-family: 'Great Vibes', cursive;
+}
+
+header p {
+  font-size: 1.5rem;
+  margin: 5px 0 0;
+  font-family: 'Great Vibes', cursive;
 }
 
 nav ul {
@@ -24,6 +40,7 @@ nav ul {
   padding: 0;
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 }
 
 nav ul li {
@@ -32,11 +49,11 @@ nav ul li {
 
 nav ul li a {
   text-decoration: none;
-  color: #333;
+  color: #fff;
   font-size: 1.2rem;
   padding: 5px 10px;
   border-radius: 5px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 nav ul li a.active, nav ul li a:hover {
@@ -46,14 +63,26 @@ nav ul li a.active, nav ul li a:hover {
 
 main {
   padding: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  margin: 20px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box;
 }
 
 .tab-content {
   display: none;
+  animation: fadeIn 1s;
 }
 
 .tab-content.active {
   display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .gallery {
@@ -61,38 +90,107 @@ main {
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 20px;
+  justify-content: center;
 }
 
-.gallery img {
+.gallery-item {
+  position: relative;
   width: 100%;
   max-width: 300px;
+  overflow: hidden;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-item img {
+  width: 100%;
+  transition: transform 0.3s;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.1);
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  font-size: 1.2rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.gallery-item:hover .overlay {
+  opacity: 1;
 }
 
 .families-intro {
-  background-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.family {
+  margin-bottom: 20px;
+}
+
+.family h4 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
 }
 
 .invitation {
   text-align: center;
-  background-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .invitation h3 {
-  font-size: 2rem;
-  color: #ff85a2;
+  font-size: 2.5rem;
+  font-family: 'Great Vibes', cursive;
+  margin: 10px 0;
+}
+
+.rsvp-button {
+  background: #ff85a2;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.rsvp-button:hover {
+  background: #ff6b8b;
 }
 
 footer {
   text-align: center;
-  padding: 10px;
-  background-color: #ffd1dc;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.6);
   margin-top: 20px;
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 10px;
+}
+
+.social-icons {
+  margin-top: 10px;
+}
+
+.social-icons a {
+  color: #fff;
+  margin: 0 10px;
+  font-size: 1.5rem;
+  transition: color 0.3s;
+}
+
+.social-icons a:hover {
+  color: #ff85a2;
 }

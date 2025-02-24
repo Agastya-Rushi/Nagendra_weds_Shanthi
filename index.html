@@ -5,10 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wedding Website</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
   <header>
-    <h1>Welcome to Our Wedding Celebration</h1>
+    <div class="header-content">
+      <h1>John & Emily</h1>
+      <p>Save the Date</p>
+    </div>
     <nav>
       <ul>
         <li><a href="#engagement" class="tab-link active">Engagement</a></li>
@@ -22,14 +26,29 @@
     <section id="engagement" class="tab-content active">
       <h2>Engagement Memories</h2>
       <div class="gallery">
-        <img src="engagement1.jpg" alt="Engagement Photo 1">
-        <img src="engagement2.jpg" alt="Engagement Photo 2">
-        <img src="engagement3.jpg" alt="Engagement Photo 3">
+        <div class="gallery-item">
+          <img src="engagement1.jpg" alt="Engagement Photo 1">
+          <div class="overlay">Love at First Sight</div>
+        </div>
+        <div class="gallery-item">
+          <img src="engagement2.jpg" alt="Engagement Photo 2">
+          <div class="overlay">The Proposal</div>
+        </div>
+        <div class="gallery-item">
+          <img src="engagement3.jpg" alt="Engagement Photo 3">
+          <div class="overlay">Celebration</div>
+        </div>
       </div>
       <div class="families-intro">
         <h3>About the Families</h3>
-        <p><strong>Groom's Family:</strong> The Smith family hails from New York. They are known for their love of music and art.</p>
-        <p><strong>Bride's Family:</strong> The Johnson family is from California. They are passionate about travel and food.</p>
+        <div class="family">
+          <h4>The Smith Family</h4>
+          <p>Hailing from New York, the Smith family is known for their love of music, art, and warm hospitality.</p>
+        </div>
+        <div class="family">
+          <h4>The Johnson Family</h4>
+          <p>From sunny California, the Johnson family brings a passion for travel, food, and joyful celebrations.</p>
+        </div>
       </div>
     </section>
 
@@ -42,12 +61,16 @@
         <p>Date: To be announced</p>
         <p>Venue: To be announced</p>
         <p>Join us as we celebrate this special day filled with love, joy, and blessings.</p>
+        <button class="rsvp-button">RSVP</button>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>Created with ❤️ by [Your Name]</p>
+    <p>Created with ❤️ by Mangaraju Palepu</p>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
   </footer>
 
   <script src="script.js"></script>
