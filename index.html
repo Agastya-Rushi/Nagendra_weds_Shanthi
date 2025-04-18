@@ -1,116 +1,330 @@
-<!DOCTYPE html>
-<html lang="en">
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="te">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wedding Website</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>నాగేంద్ర బాబు & శాంతి లక్ష్మీ వివాహం</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Telugu:wght@400;700&family=Noto+Sans+Telugu:wght@300;400&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            background: #f8f8f8;
+            font-family: 'Noto Sans Telugu', sans-serif;
+            background-color: #f8f1e9;
+            color: #1a202c;
         }
-        .tabs {
+        h1, h2, h3 {
+            font-family: 'Noto Serif Telugu', serif;
+        }
+        .hero-section {
+            background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
             display: flex;
+            align-items: center;
             justify-content: center;
-            margin: 20px;
-        }
-        .tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            background: #d63384;
+            text-align: center;
             color: white;
-            margin: 5px;
-            border-radius: 5px;
-            transition: background 0.3s;
+            position: relative;
         }
-        .tab:hover { background: #a31b65; }
-        .content { display: none; padding: 20px; }
-        .active { display: block; }
-        .family { margin: 20px; }
-        .gallery img { width: 200px; margin: 10px; border-radius: 10px; }
-        footer {
-            background: #333;
-            color: white;
-            padding: 10px;
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 20, 0.6);
+        }
+        .navbar {
+            background-color: #1a202c; /* Deep blue */
+            color: #d4af37; /* Gold */
             position: fixed;
-            bottom: 0;
+            width: 100%;
+            z-index: 20;
+            transition: all 0.3s ease;
+        }
+        .navbar a {
+            color: #d4af37;
+            font-weight: 500;
+        }
+        .navbar a:hover {
+            color: #f8f1e9;
+        }
+        .navbar.scrolled {
+            background-color: #2d3748; /* Slightly lighter blue */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .gallery-img {
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .gallery-img:hover {
+            transform: scale(1.05);
+        }
+        .map-container {
+            height: 400px;
             width: 100%;
         }
-        .social-icons a {
+        .countdown {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1a202c;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        #lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 30;
+        }
+        #lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+        }
+        #lightbox .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
             color: white;
-            margin: 0 10px;
-            text-decoration: none;
+            font-size: 2rem;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <h1>Nagendra & Shanthi</h1>
-            <p>Save the Date: soon</p>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#engagement" class="tab-link active" onclick="showTab('engagement')">Engagement</a></li>
-                <li><a href="#wedding" class="tab-link" onclick="showTab('wedding')">Wedding</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <main>
-        <div id="engagement" class="content active">
-            <h2>Engagement Celebration</h2>
-            <div class="gallery">
-                <div class="gallery-item">
-                    <img src="engagement1.jpg" alt="Engagement Photo 1">
-                    <div class="overlay">Love at First Sight</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="engagement2.jpg" alt="Engagement Photo 2">
-                    <div class="overlay">The Proposal</div>
-                </div>
-            </div>
-            <div class="families-intro">
-                <h3>About the Families</h3>
-                <div class="family">
-                    <h4>The Palepu Family</h4>
-                    <p>Hailing from Rajahmundry, the Palepu family is known for their love, effection, and warm hospitality.</p>
-                </div>
-                <div class="family">
-                    <h4>The abcdef Family</h4>
-                    <p>From sunny California, the Johnson family brings a passion for travel, food, and joyful celebrations.</p>
-                </div>
+    <!-- నావిగేషన్ బార్ -->
+    <nav class="navbar fixed w-full z-20 top-0">
+        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+            <div class="text-2xl font-bold">నాగేంద్ర బాబు & శాంతి లక్ష్మీ</div>
+            <div class="space-x-6">
+                <a href="#home" class="hover:text-ivory">మొదటి పేజీ</a>
+                <a href="#story" class="hover:text-ivory">మా కథ</a>
+                <a href="gallery.html" class="hover:text-ivory">గ్యాలరీ</a>
+                <a href="#details" class="hover:text-ivory">వివరాలు</a>
             </div>
         </div>
-        
-        <div id="wedding" class="content">
-            <h2>Wedding Invitation</h2>
-            <p>You are cordially invited to the wedding of</p>
-            <h3>John Smith & Emily Johnson</h3>
-            <p>Date: To be announced</p>
-            <p>Venue: To be announced</p>
-            <p>Join us as we celebrate this special day filled with love, joy, and blessings.</p>
-            <button class="rsvp-button">RSVP</button>
+    </nav>
+
+    <!-- హీరో సెక్షన్ -->
+    <section id="home" class="hero-section">
+        <div class="relative z-10">
+            <h1 class="text-5xl md:text-7xl font-bold mb-4">నాగేంద్ర బాబు & శాంతి లక్ష్మీ</h1>
+            <p class="text-xl md:text-2xl mb-6">17 మే 2025 | విల్లో క్రీక్ వైన్యార్డ్, నాపా వ్యాలీ</p>
+            <div class="countdown text-lg md:text-xl mb-6">
+                <span id="countdown-timer"></span>
+            </div>
+            <a href="#details" class="bg-gold text-deep-blue px-6 py-3 rounded-full hover:bg-ivory hover:text-deep-blue">వివరాలు చూడండి</a>
         </div>
-    </main>
-    
-    <footer>
-        <p>Created with ❤️ by Palepu Mangaraju</p>
-        <div class="social-icons">
-            <a href="https://www.instagram.com/agastya_rushi/"><i class="fab fa-instagram"></i></a>
+    </section>
+
+    <!-- మా కథ సెక్షన్ -->
+    <section id="story" class="py-16 bg-ivory">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold mb-8 text-deep-blue">మా కథ</h2>
+            <p class="text-lg max-w-2xl mx-auto mb-6">
+                నాగేంద్ర బాబు మరియు శాంతి లక్ష్మీ హైదరాబాద్‌లో ఒక సాంస్కృతిక ఉత్సవంలో, సంగీతం మరియు నృత్యంతో నిండిన ఒక ప్రశాంతమైన సాయంత్రంలో కలుసుకున్నారు. సాంప్రదాయ కళల పట్ల ఉన్న ఉమ్మడి ఆసక్తి వారి మధ్య గంటల తరబడి సాగిన సంభాషణకు దారితీసింది. వారి ప్రయాణం ఆలయ సందర్శనలు, హుస్సేన్ సాగర్ వెంబడి నడకలు, మరియు అనేక నవ్వుల క్షణాలతో నిండిపోయింది. విశాఖపట్నంలో ఒక ఉత్సవంలో నక్షత్రాల కింద నాగేంద్ర ప్రపోజ్ చేశారు, మరియు ఇప్పుడు వారు పవిత్రమైన బంధంలో ఒక్కటవడానికి సిద్ధంగా ఉన్నారు.
+            </p>
+        </div>
+    </section>
+
+    <!-- గ్యాలరీ సెక్షన్ -->
+    <section id="gallery" class="py-16 bg-deep-blue text-ivory">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-8">గ్యాలరీ</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <img src="https://images.unsplash.com/photo-1519227356999-2d2c36907b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="జంట 1" class="gallery-img rounded-lg shadow-lg">
+                <img src="https://images.unsplash.com/photo-1529634961670-69183d12a77a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="జంట 2" class="gallery-img rounded-lg shadow-lg">
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="జంట 3" class="gallery-img rounded-lg shadow-lg">
+            </div>
+            <div class="text-center mt-8">
+                <a href="gallery.html" class="bg-gold text-deep-blue px-6 py-3 rounded-full hover:bg-ivory">మరిన్ని చిత్రాలు చూడండి</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- వివరాలు సెక్షన్ -->
+    <section id="details" class="py-16 bg-ivory">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold mb-8 text-deep-blue">వివాహ వివరాలు</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">వివాహ వేడుక</h3>
+                    <p><strong>వధూ-వరులు:</strong> చి. నాగేంద్ర బాబు (వరుడు) & చి. ల. సౌ. శాంతి లక్ష్మీ (వధువు)</p>
+                    <p><strong>తేదీ:</strong> 17 మే 2025, శనివారం</p>
+                    <p><strong>సమయం:</strong> తెల్లవారుజామున 4:50 గంటలకు</p>
+                    <p><strong>నక్షత్రం:</strong> ఉత్తరాషాడ</p>
+                    <p><strong>లగ్నం:</strong> మేషం (పుష్కరాంశం)</p>
+                    <p><strong>వివరాలు:</strong> తారాబలం, చంద్రబలం సమన్వయంతో, రాహుకాల రహితంగా, వివాహానికి శుభప్రదం.</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">స్థలం</h3>
+                    <p>విల్లో క్రీక్ వైన్యార్డ్</p>
+                    <p>1234 వైన్యార్డ్ లేన్</p>
+                    <p>నాపా వ్యాలీ, CA 94558</p>
+                    <div class="map-container mt-4">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3150.8240761956347!2d-122.2866846846812!3d38.29753877966576!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzjCsDE3JzUwLjciTiAxMjLCsDE3JzEyLjEiVw!5e0!3m2!1sen!2sus!4v1635781234567!5m2!1sen!2sus"
+                            width="100%"
+                            height="100%"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+            <h2 class="text-4xl font-bold mb-8 text-deep-blue">వివాహ పూర్వ కార్యక్రమాలు</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">పనుల ప్రారంభం</h3>
+                    <p><strong>తేదీ:</strong> 13 ఏప్రిల్ 2025, ఆదివారం</p>
+                    <p><strong>సమయం:</strong> ఉదయం 8:34 గంటలకు</p>
+                    <p><strong>వివరాలు:</strong> విఘ్నేశ్వరుని పూజ, వివాహ పనులు ప్రారంభించడానికి శుభం.</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">కొనుగోళ్లు (బట్టలు & బంగారం)</h3>
+                    <p><strong>తేదీ:</strong> 17 ఏప్రిల్ 2025, గురువారం</p>
+                    <p><strong>సమయం:</strong> ఉదయం 11:08 గంటలకు</p>
+                    <p><strong>వివరాలు:</strong> బట్టలు, బంగారం కొనుగోలుకు శుభం.</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">వరుడు సన్నాహాలు</h3>
+                    <p><strong>తేదీ:</strong> 15 మే 2025, గురువారం</p>
+                    <p><strong>సమయం:</strong> ఉదయం 9:16 గంటలకు</p>
+                    <p><strong>వివరాలు:</strong> వరుడి ఆచారాలు, పందిరి రాట, పసుపు వాయడానికి శుభం.</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">వధువు సన్నాహాలు</h3>
+                    <p><strong>తేదీ:</strong> 15 మే 2025, గురువారం</p>
+                    <p><strong>సమయం:</strong> ఉదయం 9:17 గంటలకు</p>
+                    <p><strong>వివరాలు:</strong> వధువు ఆచారాలు, పందిరి రాట, పసుపు వాయడానికి శుభం.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ఫూటర్ -->
+    <footer class="bg-deep-blue text-ivory py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>© 2025 నాగేంద్ర బాబు & శాంతి లక్ష్మీ. అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి.</p>
         </div>
     </footer>
-    
+
+    <!-- లైట్‌బాక్స్ -->
+    <div id="lightbox">
+        <span class="close">&times;</span>
+        <img id="lightbox-img" src="" alt="Lightbox Image">
+    </div>
+
     <script>
-        function showTab(tabName) {
-            document.querySelectorAll('.content').forEach(tab => tab.classList.remove('active'));
-            document.getElementById(tabName).classList.add('active');
+        // కౌంట్‌డౌన్ టైమర్
+        function countdown() {
+            const weddingDate = new Date('May 17, 2025 04:50:00').getTime();
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown-timer').innerHTML = 
+                `${days} రోజులు ${hours} గంటలు ${minutes} నిమిషాలు ${seconds} సెకన్లు`;
+
+            if (distance < 0) {
+                document.getElementById('countdown-timer').innerHTML = 'వివాహం ప్రారంభమైంది!';
+            }
         }
+        setInterval(countdown, 1000);
+
+        // నావిగేషన్ బార్ స్క్రోల్ ఎఫెక్ట్
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // స్మూత్ స్క్రోల్
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // లైట్‌బాక్స్ ఫంక్షనాలిటీ
+        const galleryImages = document.querySelectorAll('.gallery-img');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const closeBtn = document.querySelector('.close');
+
+        galleryImages.forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightbox.style.display = 'flex';
+            });
+        });
+
+        closeBtn.addEventListener('click', () => {
+            lightbox.style.display = 'none';
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.style.display = 'none';
+            }
+        });
     </script>
-</body>
-</html>
